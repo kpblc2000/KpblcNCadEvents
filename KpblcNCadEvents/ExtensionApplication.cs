@@ -9,11 +9,24 @@ namespace KpblcNCadEvents
         public void Initialize()
         {
             Application.DocumentManager.DocumentActivated += OnDocumentActivated;
-            // Application.DocumentManager.DocumentActivationChanged += OnDocumentActivationChanged; // Не реализовано в NC23
             Application.DocumentManager.DocumentCreateStarted += OnDocumentStarted;
             Application.DocumentManager.DocumentBecameCurrent += OnDocumentBecameCurrent;
             Application.DocumentManager.DocumentCreated += OnDocumentCreated;
             Application.DocumentManager.DocumentDestroyed += OnDocumentDestroyed;
+            Application.DocumentManager.CurrentDocument.CommandWillStart += OnCommandStart;
+            Application.DocumentManager.CurrentDocument.CommandEnded += OnCommandEnd;
+        }
+
+        private void OnCommandEnd(object sender, CommandEventArgs e)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            LogService.LogMessage(doc == null ? null : doc.Name);
+        }
+
+        private void OnCommandStart(object sender, CommandEventArgs e)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            LogService.LogMessage(doc == null ? null : doc.Name);
         }
 
         private void OnDocumentDestroyed(object sender, DocumentDestroyedEventArgs e)

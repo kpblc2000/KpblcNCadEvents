@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 
 namespace KpblcNCadEvents.Infrastructure
@@ -16,13 +17,12 @@ namespace KpblcNCadEvents.Infrastructure
 
             try
             {
-                using (StreamWriter writer = new StreamWriter(_logFileName, true))
+                using (StreamWriter writer = new StreamWriter(_logFileName, true, Encoding.UTF8))
                 {
                     writer.WriteLine(DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff")
-                        + DocumentName == null ? "Без имени документа" :
-                        DocumentName
+                        + (DocumentName == null ? "Без имени документа" : DocumentName)
                         + "\t:\t"
-                        + Message == null ? "Нет сообщения" : Message);
+                        + (Message == null ? "Нет сообщения" : Message));
                 }
             }
             catch (Exception ex)
